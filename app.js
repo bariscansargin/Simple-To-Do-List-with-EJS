@@ -18,12 +18,21 @@ const printFormattedDate = () => {
     return new Date().toLocaleDateString("en-US", options)
 }
 
-/// Routing = /
+/// Rendering root path.
 app.get("/", (req, res) => {
     res.render("list", { listName: printFormattedDate(), newListItems: items });
 
 })
+//  Rendering work path.
 
+app.get("/work", (req, res) => {
+    res.render("list", { listName: "Works", newListItems: workItems })
+
+})
+app.get("/about", (req, res) => {
+    res.render("about")
+})
+// Routing 
 app.post("/", (req, res) => {
     let item = req.body.newItem;
     if (item !== "") {
@@ -34,32 +43,18 @@ app.post("/", (req, res) => {
             items.push(item)
             res.redirect("/");
         }
-
-
-    }else{
-        if (req.body.list === "Works"){
+    } else {
+        if (req.body.list === "Works") {
             res.redirect("/work")
-        }else{
+        } else {
             res.redirect("/")
         }
     }
 
-    console.log(req.body)
+    
 
 
 })
-//  Rendering work path
-
-app.get("/work", (req, res) => {
-    res.render("list", { listName: "Works", newListItems: workItems })
-
-})
-
-
-
-
-
-
 
 // Server listener
 app.listen(3000, () => console.log("SERVER İS RUNNİNG ON PORT 3000 !......"))
