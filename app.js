@@ -1,26 +1,20 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
+const date = require(`${__dirname}/date.js`) 
 let items = []
 let workItems = []
+
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs'); // Setup EJS for server side rendering.
 app.use(express.static("public"))
 
-const printFormattedDate = () => {
-    const options = {
-        weekday: "long",
-        month: "long",
-        day: "numeric"
-    }
-    return new Date().toLocaleDateString("en-US", options)
-}
 
 /// Rendering root path.
 app.get("/", (req, res) => {
-    res.render("list", { listName: printFormattedDate(), newListItems: items });
+    res.render("list", { listName: date.getDate() , newListItems: items });
 
 })
 //  Rendering work path.
@@ -50,7 +44,7 @@ app.post("/", (req, res) => {
             res.redirect("/")
         }
     }
-
+    console.log(req.body)
     
 
 
